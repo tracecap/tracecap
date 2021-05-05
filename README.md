@@ -26,7 +26,7 @@ $ tracecap login tracecap.app/github.com/<your-user-or-org>
 
 You can then upload a tcap:
 ```
-$ tracecap login tracecap.app/github.com/<your-user-or-org> capture.tcap
+$ tracecap push tracecap.app/github.com/<your-user-or-org> capture.tcap
 Uploading tcap...
 Trace has been uploaded successfully! You can view it at:
 
