@@ -9,5 +9,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v2
       - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: apt install -y libbpf-dev
       - name: Build
         run: go build
