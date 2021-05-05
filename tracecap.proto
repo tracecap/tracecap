@@ -1,0 +1,90 @@
+syntax = "proto3";
+package tracecap;
+
+option go_package = "./tracecappb;tracecappb";
+
+enum SampleScope {
+    UNKNOWN = 0;
+    KERNEL = 1;
+    USERSPACE = 2;
+    VM_RUBY = 3;
+}
+
+enum SamplePurpose {
+    MISC = 0;
+    TRACE = 1;
+    PROFILE = 2;
+}
+
+message Thread {
+    uint64 internal_id = 1;
+    uint64 start_time = 2;
+    uint64 end_time = 3;
+
+    uint32 tid = 4;
+}
+
+message Process {
+    uint64 internal_id = 1;
+    uint64 start_time = 2;
+    uint64 end_time = 3;
+
+    uint32 pid = 4;
+    string exec_name = 5;
+
+    repeated Thread threads = 16;
+}
+
+message ObjectSpaceSample {
+    uint64 total = 1;
+    uint64 free = 2;
+}
+
+message StackFrame {
+    string file = 1;
+    uint32 line = 2;
+    string method = 3;
+    string package = 4;
+}
+
+message StackSample {
+    repeated StackFrame stack = 1;
+}
+
+message SpanSample {
+    uint64 start_time = 1;
+    uint64 end_time = 2;
+
+    string id = 3;
+    string parent_id = 4;
+
+    string component_name = 5;
+    string description = 6;
+
+    uint64 queue_time = 7;
+}
+
+message Metadata {
+    string name = 1;
+    oneof value {
+        string meta_string = 2;
+    }
+}
+
+message ThreadSample {
+    uint64 collection_time = 1;
+    uint64 thread_internal_id = 2;
+    SampleScope scope = 3;
+    SamplePurpose purpose = 4;
+
+    repeated Metadata metadata = 10;
+
+    ObjectSpaceSample object_space = 16;
+    StackSample stack = 17;
+    SpanSample span = 18;
+}
+
+message TraceFile {
+    repeated Process processes = 1;
+    repeated ThreadSample samples = 2;
+}
