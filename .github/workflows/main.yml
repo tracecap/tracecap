@@ -10,6 +10,6 @@ jobs:
         uses: actions/setup-go@v2
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: sudo apt install -y libbpf-dev
+        run: sudo apt install -y libbpfcc-dev
       - name: Build
         run: go build
